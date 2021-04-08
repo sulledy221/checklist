@@ -1,0 +1,23 @@
+{% extends 'base.html' %}
+{% block content %}
+
+<h1>Checklist Details</h1>
+
+<div class="card">
+    <div class="card-content">
+        <span class="card-title">{{ checklist.name }}</span>
+        <p>Task: {{ checklist.task }}</p>
+        <p>Description: {{ checklist.description }}</p>
+        {% if checklist.timeslot > 0 %}
+        <p>Timeslot: {{ checklist.timeslot }}</p>
+        {% else %}
+        <p>Timeslot: Incomplete</p>
+        {% endif %}
+    </div>
+    <div class="card-action">
+        <a href="{% url 'checklists_update' checklist.id %}">Edit</a>
+        <a href="{% url 'checklists_delete' checklist.id %}">Delete</a>
+    </div>
+</div>
+
+{% endblock %}
