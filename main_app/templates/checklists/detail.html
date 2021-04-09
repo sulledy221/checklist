@@ -2,22 +2,104 @@
 {% block content %}
 
 <h1>Checklist Details</h1>
-
-<div class="card">
-    <div class="card-content">
-        <span class="card-title">{{ checklist.name }}</span>
-        <p>Task: {{ checklist.task }}</p>
-        <p>Description: {{ checklist.description }}</p>
-        {% if checklist.timeslot > 0 %}
-        <p>Timeslot: {{ checklist.timeslot }}</p>
-        {% else %}
-        <p>Timeslot: Incomplete</p>
-        {% endif %}
+<div class="row">
+    <div class="col s6">
+        <div class="card">
+            <div class="card-content">
+                <span class="card-title">{{ checklist.name }}</span>
+                <p>Task: {{ checklist.task }}</p>
+                <p>Description: {{ checklist.description }}</p>
+                {% if checklist.timeslot > 0 %}
+                <p>Timeslot: {{ checklist.timeslot }}</p>
+                {% else %}
+                <p>Timeslot: Incomplete</p>
+                {% endif %}
+            </div>
+            <div class="card-action">
+                <a href="{% url 'checklists_update' checklist.id %}">Edit</a>
+                <a href="{% url 'checklists_delete' checklist.id %}">Delete</a>
+            </div>
+        </div>
     </div>
-    <div class="card-action">
-        <a href="{% url 'checklists_update' checklist.id %}">Edit</a>
-        <a href="{% url 'checklists_delete' checklist.id %}">Delete</a>
+
+    <div class="col s6">
+        <form action="{% url 'add_rest' checklist.id %}"method="post">
+            {% csrf_token %}
+            {{ relax_form.as_p }}
+            <input type="submit" class="btn" value="Add Rest">
+          </form>
+        <table class="striped">
+            <thead>
+                <tr>
+                    <th>Date</th>
+                    <th>Rest Time</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for rest in checklist.relax_set.all %}
+                <tr>
+                    <td>{{rest.date}}</td>
+                    <td>{{rest.get_plannedtime_display}}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
     </div>
 </div>
+<hr>
+<div class="row">
+  <div class="col s6">
+    <h3>{{ checklist.name }}'s Vacations</h3>
+    {% if checklist.vacations.count %}
+      {% for vacation in checklist.vacations.all %}
+        <div class="card">
+          <div class="card-content">
+            <span class="card-title">
+                {{ vacation.name }}
+            </span>
+          </div>
+        </div>
+      {% endfor %}
+    {% else %}
+      <h5>No Vacations :(</h5>
+    {% endif %}
+  </div>
+  <!-- Available vacations will come after this line -->
+  <div class="col s6">
+    <h3>Available Vacations</h3>
+    {% if vacations.count %}
+      {% for vacation in vacations.all %}
+        <div class="card">
+          <div class="card-content">
+            <span class="card-title">
+                {{ vacation.name }}
+            </span>
+          </div>
+          <div class="card-action">
+            <form action="{% url 'assoc_vacation' checklist.id vacation.id %}" method="post">
+              {% csrf_token %}
+              <button type="submit" class="btn">Add</button>
+            </form>
+          </div>
+        </div>
+      {% endfor %}
+    {% else %}
+      <h5>{{checklist.name}} Already Has All Vacations Available</h5>
+    {% endif %}
+  </div>
 
+</div>
+<script>
+    const dateEl = document.getElementById('id_date');
+    M.Datepicker.init(dateEl, {
+      format: 'yyyy-mm-dd',
+      defaultDate: new Date(),
+      setDefaultDate: true,
+      autoClose: true
+    });
+  
+    // add additional JS to initialize select below
+    const selectEl = document.getElementById('id_plannedtime');
+    M.FormSelect.init(selectEl);
+  </script>
 {% endblock %}

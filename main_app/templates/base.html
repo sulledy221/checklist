@@ -1,12 +1,15 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta http-equiv="X-UA-Compatible" content="ie=edge">
   <title>Checklist</title>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
 </head>
+
 <body>
   <header class="navbar-fixed">
     <nav>
@@ -17,7 +20,7 @@
         <ul class="right">
           <li><a href="{% url 'about' %}">About</a></li>
           <li><a href="{% url 'checklists_create' %}">Add a Checklist</a></li>
-          <li><a href="{% url 'index' %}">View All My checklists</a></li>
+          <li><a href="{% url 'index' %}">View All My Checklists</a></li>
         </ul>
       </div>
     </nav>
@@ -30,4 +33,5 @@
     <div class="right">All Rights Reserved, &copy; 2021 Checklist &nbsp;</div>
   </footer>
 </body>
+
 </html>

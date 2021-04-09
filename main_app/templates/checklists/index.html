@@ -11,13 +11,13 @@
             <p>Task: {{ checklist.task }}</p>
             <p>Description: {{ checklist.description }}</p>
             {% if checklist.timeslot > 0 %}
-            <p>Timeslot: {{ checklist.timeslot }}</p>
+                <p>Timeslot: {{ checklist.timeslot }}</p>
             {% else %}
-            <p>Timeslot: Incomplete</p>
+                <p>Timeslot: Incomplete</p>
             {% endif %}
         </div>
-    </a>
-</div>
+    </div>
+</a>
 {% endfor %}
 
 {% endblock %}
